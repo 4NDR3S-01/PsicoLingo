@@ -1,36 +1,41 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# PsicoLingo
 
-## Getting Started
+App tipo Duolingo para estudiar semiología y psicopatología: 12 unidades, 355 términos, 20 síndromes y 150 casos clínicos.
+Responsive (móvil con barra inferior, laptop con barra lateral). Next.js 16 + Tailwind 4 + Supabase Auth.
 
-First, run the development server:
+## Puesta en marcha
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # http://localhost:3000 → abre directamente el login
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Variables en `.env`: `NEXT_PUBLIC_SUPABASE_URL` y `NEXT_PUBLIC_SUPABASE_PUBLISHABLE_KEY`.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Sincronizar el progreso en la nube (recomendado)
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+Ejecuta `supabase/schema.sql` en el SQL Editor de Supabase. Crea la tabla `progress` con RLS
+(cada usuario solo ve su fila). Sin la tabla la app funciona igual, pero guarda el progreso solo en el navegador.
 
-## Learn More
+## Pantallas
 
-To learn more about Next.js, take a look at the following resources:
+| Ruta | Pantalla |
+| --- | --- |
+| `/login` | Inicio de sesión, registro y recuperación de contraseña |
+| `/inicio` | Dashboard: racha, XP, nivel, meta diaria, accesos rápidos, dato curioso diario |
+| `/unidades`, `/unidades/[id]` | Camino de unidades; detalle con conceptos, palabras clave, quiz, casos y síndromes |
+| `/sindromes/[id]` | Ficha completa de cada síndrome |
+| `/casos`, `/casos/[id]` | 150 casos con filtros por síndrome, unidad, dificultad y estado |
+| `/retos/*` | Flashcards, emparejar, test rápido e identificación de síntomas |
+| `/examen` | Simulación cronometrada (15/25/40 preguntas) |
+| `/repaso` | Repaso espaciado (Leitner): los términos fallados reaparecen |
+| `/progreso` | Estadísticas, actividad, precisión por unidad, temas débiles, logros, historial |
+| `/glosario` | Buscador de todos los términos |
+| `/perfil` | Avatar, modo oscuro, sonido, meta diaria, cuenta, insignias |
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## Estructura
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
-
-## Deploy on Vercel
-
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `lib/data/` — contenido: `units.ts`, `syndromes.ts`, `cases.ts`, `facts.ts`
+- `lib/progress.ts` — modelo de progreso, XP, racha, repaso espaciado, logros
+- `lib/quiz.ts` — generación de preguntas
+- `components/quiz-runner.tsx` — motor de lecciones (comprobar → feedback → continuar)
