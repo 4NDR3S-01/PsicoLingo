@@ -50,14 +50,14 @@ export default function Glosario() {
           {groups.map(([letter, terms]) => (
             <section key={letter}>
               <h3 className="mb-2 text-xl font-black text-sky">{letter}</h3>
-              <div className="grid gap-2 md:grid-cols-2">
+              <div className="grid grid-cols-1 gap-2 md:grid-cols-2">
                 {terms.map((t) => {
                   const u = getUnit(t.unitId)!;
                   const s = progress.terms[t.id];
                   return (
-                    <div key={t.id} className="card p-4">
+                    <div key={t.id} className="card min-w-0 break-words p-4">
                       <div className="flex items-start gap-2">
-                        <p className="flex-1 font-black">{t.term}</p>
+                        <p className="min-w-0 flex-1 font-black">{t.term}</p>
                         {s && s.box >= 3 && <span title="Dominado">👑</span>}
                         <span className="chip shrink-0" style={{ color: u.color, borderColor: `${u.color}55` }}>
                           {u.emoji} U{u.id}

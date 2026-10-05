@@ -41,14 +41,14 @@ export default function Unidades() {
     <div>
       <PageHeader title="Unidades" subtitle="12 unidades de semiología y psicopatología. Toca una para empezar." />
 
-      <div className="grid gap-8 lg:grid-cols-[1fr_320px]">
+      <div className="grid grid-cols-1 gap-8 lg:grid-cols-[minmax(0,1fr)_320px]">
         {/* Camino */}
         <div className="flex flex-col items-center gap-4 py-4">
           {UNITS.map((u, i) => {
             const pct = unitProgress(progress, u.id);
             const done = pct >= 100;
             return (
-              <div key={u.id} className="flex flex-col items-center" style={{ transform: `translateX(${OFFSETS[i % OFFSETS.length]}px)` }}>
+              <div key={u.id} className="flex flex-col items-center translate-x-[calc(var(--o)*0.5px)] sm:translate-x-[calc(var(--o)*1px)]" style={{ "--o": OFFSETS[i % OFFSETS.length] } as React.CSSProperties}>
                 <Link href={`/unidades/${u.id}`} className="group flex flex-col items-center gap-1" aria-label={u.title}>
                   <Ring pct={pct} color={u.color}>
                     <div
